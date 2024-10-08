@@ -13,7 +13,7 @@ const Navigation = () => {
       <ul className="flex justify-around py-1.5">
         <li className="group">
           <Link
-            to="/herwaree/front"
+            to="/"
             className="flex flex-col items-center text-gray-600 group-hover:text-purple-600"
           >
             <FaHome className="text-2xl" />

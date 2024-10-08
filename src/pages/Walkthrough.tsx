@@ -12,80 +12,30 @@ interface Slide {
 const Walkthrough: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [answers, setAnswers] = useState<string[]>([]);
   const navigate = useNavigate();
 
   const slides: Slide[] = [
     { type: "text", content: "Bestie, welcome to your screening quiz!" },
-    {
-      type: "text",
-      content: "Screening is a lovely way to care for your body.",
-    },
-    {
-      type: "text",
-      content:
-        "Find out more from your quiz results, chat with your doctor, and make plans together!",
-    },
-    {
-      type: "text",
-      content:
-        "Gender: Being a woman means we face unique health risks. Risk increases as we age.",
-    },
-    {
-      type: "question",
-      content: "Have you ever had breast cancer?",
-      options: ["Yes", "No"],
-    },
+    { type: "text", content: "Screening is a lovely way to care for your body." },
+    { type: "text", content: "Find out more from your quiz results, chat with your doctor, and make plans together!" },
+    { type: "text", content: "Gender: Being a woman means we face unique health risks. Risk increases as we age." },
+    { type: "question", content: "Have you ever had breast cancer?", options: ["Yes", "No"] },
     { type: "text", content: "Lifestyle" },
-    {
-      type: "question",
-      content: "Do you consume alcohol?",
-      options: ["Yes", "No"],
-    },
-    {
-      type: "text",
-      content:
-        "Alcohol can increase estrogen levels, so it's good to know where we stand!",
-    },
+    { type: "question", content: "Do you consume alcohol?", options: ["Yes", "No"] },
+    { type: "text", content: "Alcohol can increase estrogen levels, so it's good to know where we stand!" },
     { type: "question", content: "Are you obese?", options: ["Yes", "No"] },
-    {
-      type: "text",
-      content: "Being obese after menopause can impact estrogen levels too.",
-    },
+    { type: "text", content: "Being obese after menopause can impact estrogen levels too." },
     { type: "question", content: "Do you smoke?", options: ["Yes", "No"] },
-    {
-      type: "text",
-      content:
-        "Smoking may increase risk, but we can always work together on wellness!",
-    },
+    { type: "text", content: "Smoking may increase risk, but we can always work together on wellness!" },
     { type: "text", content: "You're doing great, love! Keep going!" },
     { type: "text", content: "Genetics" },
-    {
-      type: "question",
-      content:
-        "Has anyone in your family had genetic testing for BRCA mutations?",
-      options: ["Yes", "No"],
-    },
-    {
-      type: "text",
-      content:
-        "BRCA1/2 can increase the chance of breast cancer, but knowledge is power!",
-    },
-    {
-      type: "question",
-      content: "Are you aware of any hereditary cancers in your family?",
-      options: ["Yes", "No"],
-    },
+    { type: "question", content: "Has anyone in your family had genetic testing for BRCA mutations?", options: ["Yes", "No"] },
+    { type: "text", content: "BRCA1/2 can increase the chance of breast cancer, but knowledge is power!" },
+    { type: "question", content: "Are you aware of any hereditary cancers in your family?", options: ["Yes", "No"] },
     { type: "text", content: "Hormonal and Reproductive Factors" },
-    {
-      type: "question",
-      content: "At what age did you start menstruation?",
-      options: ["Before age 12", "Between age 12 and 14", "After age 14"],
-    },
-    {
-      type: "text",
-      content:
-        "The earlier you started, the longer your exposure to estrogen. Knowing is caring!",
-    },
+    { type: "question", content: "At what age did you start menstruation?", options: ["Before age 12", "Between age 12 and 14", "After age 14"] },
+    { type: "text", content: "The earlier you started, the longer your exposure to estrogen. Knowing is caring!" },
   ];
 
   const handleNext = () => {
@@ -93,9 +43,7 @@ const Walkthrough: React.FC = () => {
       setCurrentSlide(currentSlide + 1);
       setSelectedOption(null);
     } else {
-      setTimeout(() => {
-        navigate("/herwaree/screening");
-      }, 20000);
+      navigate("/herwaree/screening", { state: { answers } }); // Pass answers to Screening
     }
   };
 
@@ -108,6 +56,9 @@ const Walkthrough: React.FC = () => {
 
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
+    if (slides[currentSlide].type === "question") {
+      setAnswers((prevAnswers) => [...prevAnswers, option]);
+    }
   };
 
   const renderSlideContent = () => {
@@ -118,35 +69,6 @@ const Walkthrough: React.FC = () => {
           <p className="text-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text font-medium text-2xl">
             {slide.content}
           </p>
-        );
-      case "image":
-        return (
-          <img
-            src={slide.content}
-            alt="Slide"
-            className="w-full h-full object-cover rounded-lg"
-          />
-        );
-      case "textImage":
-        return (
-          <div className="text-center">
-            <p className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text font-medium text-2xl mb-4">
-              {slide.content}
-            </p>
-            <img
-              src={slide.image}
-              alt="Slide"
-              className="w-3/4 h-auto mx-auto rounded-lg"
-            />
-          </div>
-        );
-      case "video":
-        return (
-          <video
-            src={slide.content}
-            controls
-            className="w-full h-full rounded-lg"
-          />
         );
       case "question":
         return (
@@ -199,7 +121,6 @@ const Walkthrough: React.FC = () => {
     <div
       className={`relative flex flex-col items-center justify-center w-full h-screen bg-gradient-to-b ${getBackgroundColor()} overflow-hidden`}
     >
-      {/* Close Button */}
       <button
         onClick={handleClose}
         className="absolute top-4 right-4 bg-white bg-gradient-to-r from-purple-400 to-pink-500 text-white text-2xl p-2 rounded-full shadow-lg"
@@ -207,10 +128,8 @@ const Walkthrough: React.FC = () => {
         <FaTimes />
       </button>
 
-      {/* Slide Content */}
       {renderSlideContent()}
 
-      {/* Progress Dots */}
       <div className="absolute bottom-20 flex justify-center space-x-2">
         {slides.map((_, index) => (
           <div
@@ -224,7 +143,6 @@ const Walkthrough: React.FC = () => {
         ))}
       </div>
 
-      {/* Navigation Buttons */}
       <div className="absolute bottom-4 flex justify-between w-full px-4">
         <button
           onClick={handleBack}

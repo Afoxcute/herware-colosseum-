@@ -98,12 +98,12 @@ const DonationPage = () => {
           >
             How much do you want to donate?
           </label>
-          <input
+          {/* <input
             id="price"
             type="number"
             className="mt-2 w-full p-2 border border-gray-300 rounded-full text-center text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#ba56e5]"
             placeholder="Enter Price"
-          />
+          /> */}
         </div>
 
         {/* Payment Methods */}

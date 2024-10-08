@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../components/firebaseConfig";
@@ -9,6 +9,10 @@ const Screening: React.FC = () => {
   const [isHighRisk, setIsHighRisk] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Access answers passed from Walkthrough
+  const answers = location.state?.answers || [];
 
   // Fetch authenticated user and load their screening data
   useEffect(() => {
@@ -44,17 +48,16 @@ const Screening: React.FC = () => {
 
   // Function to evaluate the screening result
   const evaluateScreening = () => {
-    const answers = getAnswers(); // Assume function that returns an array of "Yes" or "No"
     let yesCount = answers.filter((answer) => answer === "Yes").length;
     let noCount = answers.length - yesCount;
 
     let riskLevel;
-    if (yesCount > noCount) {
+    if (yesCount >= 4) {
       riskLevel = "high-risk";
-    } else if (yesCount < noCount) {
+    } else if (noCount >= 3) {
       riskLevel = "low-risk";
     } else {
-      riskLevel = "average-risk"; // Equal number of Yes and No
+      riskLevel = "average-risk";
     }
 
     setIsHighRisk(riskLevel === "high-risk");
@@ -65,12 +68,12 @@ const Screening: React.FC = () => {
     }
   };
 
-  // Trigger evaluation once user ID is available
+  // Trigger evaluation once user ID is available and answers are available
   useEffect(() => {
-    if (userId) {
-      evaluateScreening(); // Evaluate only when userId is available
+    if (userId && answers.length > 0) {
+      evaluateScreening(); // Evaluate once both userId and answers are available
     }
-  }, [userId]);
+  }, [userId, answers]);
 
   const handleRetakeTest = () => {
     navigate("/herwaree/walkthrough");
@@ -85,7 +88,6 @@ const Screening: React.FC = () => {
   };
 
   const handleShareResults = () => {
-    // Implement functionality to share results with the doctor
     alert("Results shared with the doctor!");
   };
 
@@ -148,11 +150,6 @@ const Screening: React.FC = () => {
       </div>
     </div>
   );
-};
-
-// Placeholder function to simulate getting answers
-const getAnswers = () => {
-  return ["Yes", "No", "Yes", "No", "Yes"];
 };
 
 export default Screening;

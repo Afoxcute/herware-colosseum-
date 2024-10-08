@@ -64,28 +64,34 @@ const SettingsPage: React.FC = () => {
       <div className="px-4 mt-6">
         <SettingsOption
           label="My Cycle"
-          to="/my-cycle"
+          to="/herwaree/ComingSoon" // Navigate to Coming Soon
           icon={faTint}
           iconColor="text-red-500"
         />
-        <SettingsOption label="Period possible date" to="/period-date" />
+        <SettingsOption
+          label="Period possible date"
+          to="/herwaree/ComingSoon" // Navigate to Coming Soon
+        />
         <SettingsOption
           label="Fertility predictions"
-          to="/fertility-predictions"
+          to="/herwaree/ComingSoon" // Navigate to Coming Soon
         />
         <SettingsOption
           label="Self breast examination guide"
-          to="/breast-exam-guide"
+          to="/herwaree/ComingSoon" // Navigate to Coming Soon
         />
         <SettingsOption label="My Profile" to="/herwaree/profile" />
-        <SettingsOption label="Schedule a mammogram" to="/schedule-mammogram" />
+        <SettingsOption
+          label="Schedule a mammogram"
+          to="/herwaree/ComingSoon" // Navigate to Coming Soon
+        />
         <SettingsOption
           label="Visit a Clinic"
           to="/herwaree/hospitals"
           icon={faChartLine}
         />
-        <SettingsOption label="Streaks" to="/streaks" icon={faTasks} />
-        <SettingsOption label="Rewards" to="/rewards" icon={faGift} />
+        <SettingsOption label="Streaks" to="/herwaree/ComingSoon" /> {/* Navigate to Coming Soon */}
+        <SettingsOption label="Rewards" to="/herwaree/ComingSoon" /> {/* Navigate to Coming Soon */}
         <SettingsOption
           label="Donation"
           to="/herwaree/donation"
@@ -96,13 +102,13 @@ const SettingsPage: React.FC = () => {
           to="/herwaree/community"
           icon={faComments}
         />
-        <SettingsOption label="Reminders" to="/reminders" icon={faBell} />
+        <SettingsOption label="Reminders" to="/herwaree/ComingSoon" /> {/* Navigate to Coming Soon */}
         <SettingsOption
           label="Fertility Updates"
-          to="/fertility-updates"
+          to="/herwaree/ComingSoon" // Navigate to Coming Soon
           icon={faChartLine}
         />
-        <SettingsOption label="Language" to="/language" icon={faLanguage} />
+        <SettingsOption label="Language" to="/herwaree/ComingSoon" /> {/* Navigate to Coming Soon */}
       </div>
     </div>
   );

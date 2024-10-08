@@ -1,4 +1,4 @@
-// Import necessary modules
+// src/App.tsx
 import {
   createBrowserRouter,
   RouterProvider,
@@ -6,13 +6,10 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-// Import the Firebase configuration and auth module
 import { auth } from "../src/components/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-
-// Import your UserContext
 import { UserProvider } from "./pages/UserContext";
+import { RiskProvider } from "./RiskContext"; // Import the RiskProvider
 import WalletWidget from "./pages/WalletWidget";
 import SignUp from "./pages/SignUp";
 import Introduce from "./pages/Introduce";
@@ -56,6 +53,8 @@ import DonationPage from "./pages/donationpg";
 import Hospitals from "./pages/hospitals";
 import DonationConfirmation from "./pages/donation-confirmation";
 import ComingSoon from "./pages/ComingSoon";
+import History from "./pages/history";
+import Theme from "./pages/theme";
 
 // App Component
 function App() {
@@ -125,7 +124,9 @@ function App() {
         <Route path="/herwaree/hospitals" element={<Hospitals />} />
         <Route path="/herwaree/login" element={<Login />} />
         <Route path="/herwaree/donation-confirmation" element={<DonationConfirmation />} />
-        <Route path="/herwaree/comingsoon" element={<ComingSoon />} /> {/* Updated route */}
+        <Route path="/herwaree/comingsoon" element={<ComingSoon />} /> 
+        <Route path="/herwaree/history" element={<History/>}/>
+        <Route path="/herwaree/theme"  element={<Theme/>}/>
       </>
     )
   );
@@ -136,7 +137,9 @@ function App() {
 
   return (
     <UserProvider>
-      <RouterProvider router={router} />
+      <RiskProvider> {/* Wrap with RiskProvider */}
+        <RouterProvider router={router} />
+      </RiskProvider>
     </UserProvider>
   );
 }

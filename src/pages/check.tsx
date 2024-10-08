@@ -5,6 +5,7 @@ import img2 from "../assets/flower2.png";
 import logo from "../assets/Fold.jpg";
 import { FaVideo } from "react-icons/fa";
 import Navigation from "../components/navigation";
+import './Video.css';
 
 const Check: React.FC = () => {
   const navigate = useNavigate();
